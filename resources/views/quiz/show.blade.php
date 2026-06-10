@@ -6,17 +6,30 @@
     Pertanyaan
 </h2>
 
-<x-card>
-    <h3 class="font-semibold mb-4 dark:text-white">Soal 1</h3>
-    <p class="mb-4 dark:text-slate-400">Apa itu composer</p>
+@if($quiz && isset($quiz['question']))
+    @foreach($quiz['question'] as $index => $item)
+    <x-card>
+        <h3 class="font-semibold mb-4 dark:text-white">Soal {{ $index + 1 }}</h3>
+        <p class="mb-4 dark:text-slate-400">{{ $item['question'] }}</p>
 
-    <div class="space-y-2 dark:text-slate-400">
-        <div>A. Sebuah Package manager untuk php</div>
-        <div>B. Bawaan aplikasi Node JS</div>
-        <div>C. Package Manager Node JS</div>
-        <div>D. Sebuah Package manager untuk php</div>
-    </div>
-</x-card>
+        <div class="space-y-2 dark:text-slate-400">
+            <div>A. {{ $item['option_a'] }}</div>
+            <div>B. {{ $item['option_b'] }}</div>
+            <div>C. {{ $item['option_c'] }}</div>
+            <div>D. {{ $item['option_d'] }}</div>
+        </div>
+    </x-card>
+    @endforeach
+@else
+    <x-card>
+        <p class="dark:text-white text-center py-8">Belum ada quiz yang dihasilkan untuk catatan ini.</p>
+        <div class="flex justify-center mt-4">
+            <a href="/notes/{{ request()->route('id') }}/quiz">
+                <x-button>Hasilkan Quiz Sekarang</x-button>
+            </a>
+        </div>
+    </x-card>
+@endif
 
 </div>
 @endsection
