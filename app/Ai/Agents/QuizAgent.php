@@ -21,9 +21,17 @@ class QuizAgent implements Agent, Conversational, HasStructuredOutput, HasTools
      */
     public function instructions(): Stringable|string
     {
-        return 'Kamu adalah pembuat soal pembelajaran.
+        return 'Kamu adalah pembuat soal pembelajaran yang ahli.
         Buat 5 soal pilihan ganda berdasarkan materi yang diberikan.
-        Setiap soal harus memiliki pertanyaan, 4 pilihan jawaban (A, B, C, D), dan kunci jawaban yang benar.';
+        Setiap soal HARUS memiliki:
+        - question: pertanyaan yang jelas
+        - option_a: pilihan jawaban A
+        - option_b: pilihan jawaban B
+        - option_c: pilihan jawaban C
+        - option_d: pilihan jawaban D
+        - answer: kunci jawaban yang benar (hanya A, B, C, atau D)
+        Pastikan soal bervariasi dan menguji pemahaman materi.
+        Gunakan bahasa Indonesia.';
     }
 
     /**

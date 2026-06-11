@@ -9,31 +9,40 @@
     Siap belajar?
 </p>
 
-<div class="grid md:grid-cols-3 gap-6">
+<div class="grid md:grid-cols-4 gap-6">
     <x-card>
         <p class="text-slate-500 dark:text-slate-400">
-            Total catatan
+            Total Catatan
         </p>
         <h3 class="text-3xl font-bold mt-2 dark:text-white">
-            12
+            {{ $totalNotes }}
         </h3>
     </x-card>
 
     <x-card>
         <p class="text-slate-500 dark:text-slate-400">
-            Total catatan
+            Total Ringkasan
         </p>
         <h3 class="text-3xl font-bold mt-2 dark:text-white">
-            12
+            {{ $totalSummaries }}
         </h3>
     </x-card>
 
     <x-card>
         <p class="text-slate-500 dark:text-slate-400">
-            Total catatan
+            Total Quiz
         </p>
         <h3 class="text-3xl font-bold mt-2 dark:text-white">
-            12
+            {{ $totalQuizzes }}
+        </h3>
+    </x-card>
+
+    <x-card>
+        <p class="text-slate-500 dark:text-slate-400">
+            Total Chat AI
+        </p>
+        <h3 class="text-3xl font-bold mt-2 dark:text-white">
+            {{ $totalChats }}
         </h3>
     </x-card>
 </div>

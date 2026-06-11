@@ -49,17 +49,21 @@
         <div class="space-y-4">
             @forelse($notes as $note)
             <x-card>
-                <h4 class="text-xl font-bold dark:text-white">{{ $note['title'] }}</h4>
-                <p class="text-shadow-yellow-50 mt-2 dark:text-slate-400">{{ $note['content'] }}</p>
+                <h4 class="text-xl font-bold dark:text-white">{{ $note->title }}</h4>
+                <p class="text-shadow-yellow-50 mt-2 dark:text-slate-400">{{ Str::limit($note->content, 100) }}</p>
                 <div class="flex gap-2 mt-4">
-                    <a href="/notes/{{ $note['id'] }}">
+                    <a href="/notes/{{ $note->id }}">
                         <x-button>
                             Detail
                         </x-button>
                     </a>
-                    <x-button class="bg-red-600">
-                        Hapus
-                    </x-button>
+                    <form method="POST" action="/notes/{{ $note->id }}" onsubmit="return confirm('Hapus catatan ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <x-button class="bg-red-600">
+                            Hapus
+                        </x-button>
+                    </form>
                 </div>
             </x-card>
             @empty

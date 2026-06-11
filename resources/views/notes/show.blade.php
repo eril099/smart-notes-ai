@@ -9,24 +9,30 @@
     </div>
     <x-card>
         <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-            {{ $note['title'] }}
+            {{ $note->title }}
         </h2>
 
-        @if (!empty($note['content']))
+        @if (!empty($note->content) && !$note->document)
         <p class="text-slate-600 dark:text-slate-300 leading-relaxed mt-4">
-            {{ $note['content'] }}
+            {{ $note->content }}
         </p>
-        @else
+        @elseif($note->document)
             <div>
                 <p class="mt-4 text-slate-500 dark:text-slate-400">
                     Dokumen Berhasil diunggah
                 </p>
                 <p class="text-sm text-slate-400 dark:text-slate-50">
-                    {{ basename ($note['document']) }}
+                    {{ basename($note->document) }}
                 </p>
             </div>
         @endif
     </x-card>
+
+    @if(session('error'))
+    <x-card>
+        <p class="text-red-500 font-semibold">{{ session('error') }}</p>
+    </x-card>
+    @endif
 
     <x-card>
         <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">
@@ -34,13 +40,13 @@
         </h3>
 
         <div class="flex gap-2">
-            @if(!$note['summary'])
+            @if(!$note->summary)
             <x-button id="btn-summary" onclick="startSummary()">
                 Ringkas AI
             </x-button>
             @endif
 
-            <a href="/notes/{{ $note['id'] }}/quiz">
+            <a href="/notes/{{ $note->id }}/quiz">
                 <x-button class="bg-emerald-600 dark:bg-emerald-500">
                     Quiz AI
                 </x-button>
@@ -48,13 +54,13 @@
         </div>
     </x-card>
 
-    <div id="summary-container" @if(!$note['summary']) class="hidden" @endif>
+    <div id="summary-container" @if(!$note->summary) class="hidden" @endif>
         <x-card>
             <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                 Ringkasan AI
             </h3>
             <div id="summary-content" class="text-slate-600 dark:text-slate-300 leading-relaxed prose dark:prose-invert max-w-none">
-                {!! $note['summary'] !!}
+                {!! $note->summary !!}
             </div>
         </x-card>
     </div>
@@ -72,12 +78,12 @@
         content.innerHTML = '<p class="animate-pulse">Menghubungkan ke AI...</p>';
 
         let fullText = '';
-        const eventSource = new EventSource('/notes/{{ $note['id'] }}/summary/stream');
+        const eventSource = new EventSource('/notes/{{ $note->id }}/summary/stream');
 
         eventSource.onmessage = function(event) {
             if (event.data === '[DONE]') {
                 eventSource.close();
-                btn.parentElement.remove(); // Remove the "Ringkas AI" button after completion
+                btn.remove();
                 return;
             }
 
@@ -93,7 +99,6 @@
                 }
 
                 fullText += data.text;
-                // Render markdown as it streams
                 content.innerHTML = marked.parse(fullText);
             } catch (e) {
                 console.error('Error parsing stream data', e);

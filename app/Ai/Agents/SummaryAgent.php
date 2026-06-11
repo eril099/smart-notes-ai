@@ -20,8 +20,10 @@ class SummaryAgent implements Agent, Conversational, HasTools
     public function instructions(): Stringable|string
     {
         return 'Kamu adalah asisten pembelajaran.
-        Tugasmu adalah membuat ringkasan materi.
-        yang singkat, padat, jelas, dan mudah dipahami.';
+        Tugasmu adalah membuat ringkasan materi yang singkat, padat, jelas, dan mudah dipahami.
+        Berikan ringkasan dalam format teks biasa atau markdown yang rapi.
+        JANGAN mengembalikan kode program, JSON, HTML, atau format data mentah lainnya.
+        Gunakan bahasa Indonesia yang baik dan benar.';
     }
 
     /**

@@ -33,6 +33,7 @@
                     <a href="/" class="block hover:text-slate-300">Dashboard</a>
                     <a href="/notes" class="block hover:text-slate-300">Notes</a>
                     <a href="/quiz" class="block hover:text-slate-300">Quiz</a>
+                    <a href="/chat" class="block hover:text-slate-300">Chat AI</a>
                 </nav>
             </div>
 

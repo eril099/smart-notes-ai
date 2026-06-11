@@ -11,33 +11,26 @@
 </p>
 
 <div class="mt-8 space-y-4">
+    @forelse($notes as $note)
     @php
-        $notesWithQuizzes = array_filter($notes, function($note) {
-            return !empty($note['quizzes']);
-        });
-    @endphp
-
-    @forelse($notesWithQuizzes as $note)
-    @php
-        $lastQuiz = collect($note['quizzes'])->last();
-        $questionCount = isset($lastQuiz['question']) ? count($lastQuiz['question']) : 0;
+        $latestQuiz = $note->latestQuiz;
+        $questionCount = 0;
+        if ($latestQuiz && isset($latestQuiz->questions['question'])) {
+            $questionCount = count($latestQuiz->questions['question']);
+        }
     @endphp
     <x-card>
-        <h3 class="font-bold dark:text-white">{{ $note['title'] }}</h3>
+        <h3 class="font-bold dark:text-white">{{ $note->title }}</h3>
         <p class="text-slate-500">
             {{ $questionCount }} Soal
         </p>
          <div class="flex gap-2 mt-4">
-            <a href="/quiz/{{ $note['id'] }}">
+            <a href="/quiz/{{ $note->id }}">
                  <x-button>
                     Masuk ke Quiz
                 </x-button>
             </a>
-               
-                <x-button class="bg-red-600">
-                    Hapus
-                </x-button>
-            </div>
+        </div>
     </x-card>
     @empty
     <p class="dark:text-slate-400">Belum ada quiz yang dibuat. Silakan buka catatan Anda dan pilih "Quiz AI".</p>
